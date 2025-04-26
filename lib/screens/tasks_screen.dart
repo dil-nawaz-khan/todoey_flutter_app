@@ -1,33 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:todoey_flutter_app/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter_app/models/task_data.dart';
 import 'package:todoey_flutter_app/screens/add_task_screen.dart';
 import 'package:todoey_flutter_app/widgets/task_list.dart';
 
-class TasksScreen extends StatefulWidget {
+class TasksScreen extends StatelessWidget {
   const TasksScreen({super.key});
 
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'Buy milk'),
-    Task(name: 'Buy eggs'),
-    Task(name: 'Buy bread'),
-  ];
-
-  void toggleCheckboxState(bool? value, int index) {
-    setState(() {
-      tasks[index].toggleDone();
-    });
-  }
-
   void handleAddTask(String taskText) {
-    setState(() {
-      tasks.add(Task(name: taskText));
-    });
-    Navigator.pop(context);
+    // setState(() {
+    //   tasks.add(Task(name: taskText));
+    // });
+    // Navigator.pop(context);
   }
 
   @override
@@ -49,7 +33,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
 
-                    child: AddTaskScreen(addTaskCallback: handleAddTask),
+                    child: AddTaskScreen(),
                   ),
                 ),
           );
@@ -87,7 +71,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(color: Colors.white, fontSize: 18.0),
                 ),
               ],
@@ -103,10 +87,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(
-                taskList: tasks,
-                checkboxCallback: toggleCheckboxState,
-              ),
+              child: TasksList(),
             ),
           ),
         ],
